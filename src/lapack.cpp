@@ -27,7 +27,7 @@ int main(int argc, char** argv){
   // dgeev overwrites the matrix, so we need to copy the values
   double A[N*N];
   std::copy(matrixValues, matrixValues+N*N, A);
-  dgeev_(&Nchar, &Vchar, &n, A, &n, eigReal, eigImag, vl, &one, vr, &n, work, &lwork, &info);
+  FC_dgeev(&Nchar, &Vchar, &n, A, &n, eigReal, eigImag, vl, &one, vr, &n, work, &lwork, &info);
 
   // check for errors
   if (info != 0){
@@ -46,7 +46,7 @@ int main(int argc, char** argv){
     eigenvalues[i] = std::complex<double>(eigReal[i], eigImag[i]);
 
     double* vec = &vr[N*i];
-    dgemv_(&Nchar, &n, &n, &alpha, A, &n, vec, &one, &beta, y, &one);
+    FC_dgemv(&Nchar, &n, &n, &alpha, A, &n, vec, &one, &beta, y, &one);
 
     double residual_squared = 0;
     for (int j = 0; j < N; j++){
